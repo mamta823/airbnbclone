@@ -7,10 +7,12 @@ import './index.css';
 // import ReactFlagsSelect from 'react-flags-select';
 import Carousel from 'react-bootstrap/Carousel';
 import data from '../../src/data.json'
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+// import OwlCarousel from 'react-owl-carousel';
+// import 'owl.carousel/dist/assets/owl.carousel.css';
+// import 'owl.carousel/dist/assets/owl.theme.default.css';
 import ContentLoaderr from '../components/ContentLoaderr';
+import convertCurrency from '../util/util';
+import OwlCarouselForCountries from '../components/OwlCarousel';
 // import { testingdata } from '../testingdata';
 // import Calendar from 'react-calendar';
 // import 'react-calendar/dist/Calendar.css';
@@ -21,31 +23,18 @@ const Home = () => {
     const [loading, setLoading] = useState(false)
     const emptyArray = new Array(10).fill({});
     const [result, setResult] = useState(emptyArray)
-    const [query, setQuery] = useState("")
+    const [query, setQuery] = useState("india")
     const [morePage, setMorePage] = useState(true);
     const [page, setPage] = useState(1);
     const [nodata, setNodata] = useState('');
-    const [countrylist, setCountrylist] = useState();
-    const [isShown, setIsShown] = useState(false);
-    const handleClick = () => {
-        setIsShown(current => !current);
-        // setIsShown(true);
-    };
-    useEffect(() => {
-        if (data)
-            setCountrylist(data.countries
-            )
-    }, [data])
+
 
     const getLocations = () => {
-        // const checkIn = dayjs(value[0]).format("YYYY-MM-DD")
-        // const checkOut = dayjs(value[1]).format("YYYY-MM-DD")
-
         setLoading(true)
         if (query) {
             axios({
                 method: "GET",
-                url: 'https://airbnb13.p.rapidapi.com/search-location',
+                url: `${process.env.REACT_APP_API_URL}/search-location`,
                 params: {
                     location: query,
                     checkin: '2023-09-16',
@@ -54,31 +43,34 @@ const Home = () => {
                     page: page,
                 },
                 headers: {
-                    'X-RapidAPI-Key': 'e899e7565dmshcd2cf487c79cfb5p15b9c6jsndb29c3b31964',
-                    'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
+                    'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
+                    'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
                 }
             })
                 .then(function (response) {
+                    setNodata("")
                     setLoading(false)
-                    // setResult(response.data.results)
-                    // console.log(result[result.length - 1].images, "result[result.length - 1].images")
-                    if (page <= 3) {
-
+                    if (response.data.results.length > 0 && response.data.results.length < 120 && page <= 3) {
                         if (result[result?.length - 1].images) {
-                            setResult((prev) => [...prev, ...response.data.results]);
+                            setResult((prev) => [...prev, ...response.data?.results]);
+                            setPage((prev) => prev + 1)
+                        } else if (response?.data?.results.length > 0) {
+                            setResult(response?.data?.results)
+
                         } else {
-                            setResult(response.data.results)
+                            setNodata("No more data")
                         }
-                        setPage((prev) => prev + 1)
-                        setLoading(false)
                     } else {
                         setNodata("No more data")
+
                     }
 
                 })
                 .catch(function (error) {
                     console.log(error, "error occured ")
+                    setNodata(error.message)
                     setLoading(false)
+                    setResult([])
                 })
         }
 
@@ -91,18 +83,10 @@ const Home = () => {
 
     const handleCountry = (value) => {
         setQuery(value)
+        setResult(emptyArray)
+        setPage(1)
     }
 
-    const convertCurrency = (rate) => {
-        const sign = rate
-        let USDollar = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
-        const formatedValue = USDollar.format(sign)
-        return formatedValue
-
-    }
     return (
         <>
 
@@ -119,58 +103,28 @@ const Home = () => {
                     </div>
                 </div>
             </div> */}
-            <div className="container">
-                <div className="row">
-                    <div className="stays d-flex">
-                        <div onClick={handleClick} style={{ cursor: "pointer" }} >Checkin-Checkout </div>
-                        <div className="guests ms-2">
-                            Who
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* <div className='container'>
-                <div className='row'>
-                    {isShown && <Calendar onChange={onChange}
-                        allowPartialRange={true}
-                        selectRange={true}
-                        value={value} />}
-                </div>
-            </div> */}
-
-
-
-            <div className="container">
-                <div className="row mt-5">
-                    <OwlCarousel className='owl-theme' items={6} loop margin={10} nav>
-                        {data?.countries.map((con, i) => (
-                            <div class='item' style={{ cursor: "pointer" }} onClick={() => handleCountry(con)}>
-                                <h4>{con}</h4>
-                            </div>
-                        ))}
-
-                    </OwlCarousel>
-
-                </div>
-            </div>
+            <OwlCarouselForCountries countries={data?.countries}
+                handleCountry={handleCountry}
+            />
 
             <InfiniteScroll
                 dataLength={result?.length}
                 hasMore={morePage}
-                next={() => getLocations()}
+                next={() => {
+                    !nodata &&
+                        getLocations()
+                }
+
+                }
                 endMessage={
                     // new
-                    page < 3 ?
-                        <div className="ind-card col-md-12">
-                            <center>
-                                <span className="text-primary">
-                                    Congratulations! You’ve reached the
-                                    end. Check back later for more
-                                    Prosals.
-                                </span>
-                            </center>
-                        </div> : ""
+                    <div className="ind-card col-md-12">
+                        <center>
+                            <span className="text-primary">
+
+                            </span>
+                        </center>
+                    </div>
                 }
             >
                 <div className="container">
