@@ -179,7 +179,6 @@ const Home = () => {
                         {
                             result?.map((data, index) => (
                                 // testingdata && testingdata[0].results?.map((data, index) => (
-                                // <Link to={`/detail/${data.index}`}>
                                 < div key={index} className="col-md-3" >
                                     {loading ? <ContentLoaderr /> :
                                         <>
@@ -204,11 +203,8 @@ const Home = () => {
                                         </>
                                     }
                                 </div>
-                                // </Link>
                             ))
                         }
-
-
                         {/*  ))} */}
                         <h1 style={{ color: "red" }}>{nodata}</h1>
                     </div>
