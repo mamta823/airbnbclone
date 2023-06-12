@@ -37,11 +37,11 @@ const Home = () => {
             setCountrylist(data.countries
             )
     }, [data])
-    console.log(value, "value")
+
     const getLocations = () => {
-        const checkIn = dayjs(value[0]).format("YYYY-MM-DD")
-        const checkOut = dayjs(value[1]).format("YYYY-MM-DD")
-        console.log(checkIn, checkOut, "checkin")
+        // const checkIn = dayjs(value[0]).format("YYYY-MM-DD")
+        // const checkOut = dayjs(value[1]).format("YYYY-MM-DD")
+
         setLoading(true)
         if (query) {
             axios({
@@ -175,7 +175,7 @@ const Home = () => {
                     <div className="row mt-5">
 
                         {/* {data && data[0].results?.map((data, index) => ( */}
-                        <>{console.log(testingdata, "testingdata")}</>
+
                         {
                             result.length > 0 && result?.map((data, index) => (
                                 // testingdata && testingdata[0].results?.map((data, index) => (
