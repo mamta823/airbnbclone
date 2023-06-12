@@ -54,7 +54,7 @@ const Home = () => {
                     page: page,
                 },
                 headers: {
-                    'X-RapidAPI-Key': 'e35541e7d2mshfdc27b83131cba2p10a51fjsn0559e6199edd',
+                    'X-RapidAPI-Key': 'e899e7565dmshcd2cf487c79cfb5p15b9c6jsndb29c3b31964',
                     'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
                 }
             })
