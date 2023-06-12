@@ -21,7 +21,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false)
     const emptyArray = new Array(10).fill({});
     const [result, setResult] = useState(emptyArray)
-    const [query, setQuery] = useState("india")
+    const [query, setQuery] = useState("")
     const [morePage, setMorePage] = useState(true);
     const [page, setPage] = useState(1);
     const [nodata, setNodata] = useState('');
