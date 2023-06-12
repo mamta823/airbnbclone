@@ -64,7 +64,7 @@ const Home = () => {
                     // console.log(result[result.length - 1].images, "result[result.length - 1].images")
                     if (page <= 3) {
 
-                        if (result[result.length - 1].images) {
+                        if (result[result?.length - 1].images) {
                             setResult((prev) => [...prev, ...response.data.results]);
                         } else {
                             setResult(response.data.results)
