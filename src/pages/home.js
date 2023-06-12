@@ -4,22 +4,20 @@ import "../pages/index.css"
 import axios from 'axios'
 import './index.css';
 // import { data } from '../data.js';
-import ReactFlagsSelect from 'react-flags-select';
+// import ReactFlagsSelect from 'react-flags-select';
 import Carousel from 'react-bootstrap/Carousel';
-import Loader from '../components/Loader';
 import data from '../../src/data.json'
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import ContentLoaderr from '../components/ContentLoaderr';
-import { Link } from 'react-router-dom';
-import { testingdata } from '../testingdata';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import dayjs from 'dayjs';
+// import { testingdata } from '../testingdata';
+// import Calendar from 'react-calendar';
+// import 'react-calendar/dist/Calendar.css';
+// import dayjs from 'dayjs';
 
 const Home = () => {
-    const [value, onChange] = useState(new Date());
+    // const [value, onChange] = useState(new Date());
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState([])
     const [query, setQuery] = useState("india")
