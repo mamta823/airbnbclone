@@ -22,7 +22,7 @@ const Home = () => {
     const [value, onChange] = useState(new Date());
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState([])
-    const [query, setQuery] = useState("")
+    const [query, setQuery] = useState("india")
     const [morePage, setMorePage] = useState(true);
     const [page, setPage] = useState(1);
     const [nodata, setNodata] = useState('');
@@ -177,7 +177,7 @@ const Home = () => {
                         {/* {data && data[0].results?.map((data, index) => ( */}
 
                         {
-                            result.length > 0 && result?.map((data, index) => (
+                            result?.map((data, index) => (
                                 // testingdata && testingdata[0].results?.map((data, index) => (
                                 // <Link to={`/detail/${data.index}`}>
                                 < div key={index} className="col-md-3" >
