@@ -19,7 +19,8 @@ import ContentLoaderr from '../components/ContentLoaderr';
 const Home = () => {
     // const [value, onChange] = useState(new Date());
     const [loading, setLoading] = useState(false)
-    const [result, setResult] = useState([])
+    const emptyArray = new Array(10).fill({});
+    const [result, setResult] = useState(emptyArray)
     const [query, setQuery] = useState("india")
     const [morePage, setMorePage] = useState(true);
     const [page, setPage] = useState(1);
@@ -58,14 +59,18 @@ const Home = () => {
                 }
             })
                 .then(function (response) {
-                    console.log(response.data.results, "response for locationss")
                     setLoading(false)
                     // setResult(response.data.results)
+                    // console.log(result[result.length - 1].images, "result[result.length - 1].images")
                     if (page <= 3) {
-                        setResult((prev) => [...prev, ...response.data.results]);
+
+                        if (result[result.length - 1].images) {
+                            setResult((prev) => [...prev, ...response.data.results]);
+                        } else {
+                            setResult(response.data.results)
+                        }
                         setPage((prev) => prev + 1)
                         setLoading(false)
-
                     } else {
                         setNodata("No more data")
                     }
@@ -82,7 +87,6 @@ const Home = () => {
 
     useEffect(() => {
         getLocations()
-
     }, [query])
 
     const handleCountry = (value) => {
@@ -140,7 +144,7 @@ const Home = () => {
             <div className="container">
                 <div className="row mt-5">
                     <OwlCarousel className='owl-theme' items={6} loop margin={10} nav>
-                        {data.countries.map((con, i) => (
+                        {data?.countries.map((con, i) => (
                             <div class='item' style={{ cursor: "pointer" }} onClick={() => handleCountry(con)}>
                                 <h4>{con}</h4>
                             </div>
