@@ -3,7 +3,6 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 const OwlCarouselForCountries = (props) => {
-    console.log(props.handleCountry, "props")
     return (
         <>
             <div className="container">
