@@ -50,7 +50,7 @@ const Home = () => {
                 .then(function (response) {
                     setNodata("")
                     setLoading(false)
-                    if (response.data.results.length > 0 && response.data.results.length < 120 && page <= 3) {
+                    if (response?.data?.results?.length > 0 && response?.data?.results?.length < 120 && page <= 3) {
                         if (result[result?.length - 1].images) {
                             setResult((prev) => [...prev, ...response.data?.results]);
                             setPage((prev) => prev + 1)
