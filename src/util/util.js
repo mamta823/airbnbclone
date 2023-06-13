@@ -5,12 +5,17 @@ const convertCurrency = (rate) => {
         style: 'currency',
         currency: 'USD',
     });
-
-    const formatedValue = USDollar.format(sign)
-    if (formatedValue) {
-        return formatedValue
+    if (sign) {
+        const formatedValue = USDollar.format(sign)
+        if (formatedValue) {
+            return formatedValue
+        } else {
+            return ""
+        }
     } else {
         return ""
     }
+
+
 }
 export default convertCurrency

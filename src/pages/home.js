@@ -68,7 +68,7 @@ const Home = () => {
                 })
                 .catch(function (error) {
                     console.log(error, "error occured ")
-                    setNodata(error.message)
+                    setNodata(error?.response.data.message)
                     setLoading(false)
                     setResult([])
                 })
